@@ -2,7 +2,6 @@
 # lexer.py
 #
 # A generic regex-based Lexer/tokenizer tool.
-# See the if __main__ section in the bottom for an example.
 #
 # Eli Bendersky (eliben@gmail.com)
 # This code is in the public domain
