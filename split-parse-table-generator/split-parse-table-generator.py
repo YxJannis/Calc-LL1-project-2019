@@ -13,7 +13,7 @@ class ParseTableGen(object):
     terminals = []
     non_terminals = []
 
-    # specific to Calc-context-free languages that have a collision between bytes and string-ending symbols (like comma)
+    # specific to Calc-LL(1) languages that have a collision between bytes and e.g. string-ending symbols (like commas in netstrings)
     byte_symbol = ""
     end_of_string_symbol = ""
 
@@ -24,7 +24,8 @@ class ParseTableGen(object):
 
     # initializes a ParseTableGen object given a grammar and calculates first/follow sets and the parse table
     # The 'byte_symbol' can be added as a parameter if one wants to process calc-context-free grammars and therefore
-    # needs to specify a non-terminal that represents bytes and can cause collisions with the end of string symbol
+    # needs to specify a non-terminal that represents bytes and can cause collisions with the end of string symbol or
+    # the beginning of a new potential message
     def __init__(self, productions, byte_symbol=None, end_of_string_symbol=None):
         self.format_productions(productions)
         self.format_init_sets()
@@ -110,7 +111,6 @@ class ParseTableGen(object):
         for t in self.terminals:
             table[0][i] = t
             i += 1
-        # print("Initialized table:\n" + str(tabulate(table, tablefmt="fancy_grid")))
         return table
 
     # simple helper function to retrieve the index of a symbol s from the parse table
@@ -184,7 +184,7 @@ class ParseTableGen(object):
                             print("ERROR! Collision at parse table with Non-terminal: " + str(non_t) +
                                   " and terminal: " + str(t))
                             parse_table[pos_n][pos_t] = CRED + current_entry + CEND + "\n" \
-                                                        + CRED + prod_formatted + CEND
+                                + CRED + prod_formatted + CEND
                 if eps_in_set:
                     if t in self.follow_sets[non_t]:
                         pos_n_2 = self.get_table_position(parse_table, non_t)
@@ -220,7 +220,7 @@ class ParseTableGen(object):
         parse_table[non_t_pos][end_symbol_pos] = " "
         parse_table[non_t_pos+1][end_symbol_pos] = end_symbol_rule
 
-        print("\nCalc-context-free Parse Table: ")
+        print("\nCalc-LL(1) Parse Table: ")
         print(tabulate(parse_table, tablefmt="fancy_grid"))
 
     @staticmethod
@@ -253,4 +253,3 @@ if __name__ == '__main__':
     productions_5 = ["S = 0 D : R ,", "S = 1 D : T ,", "R = S R", "R = ", "T = b T", "T = ",
                      "D = 1 N", "D = ", "N = 0 N", "N = "]
     ParseTableGen(productions_5, "b", ",")
-    # TODO: splitting the parse table as to avoid collision with "bytes" in calc-context free languages / netstrings
