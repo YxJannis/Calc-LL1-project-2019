@@ -156,10 +156,11 @@ class CalcParser(object):
                 elif self.cur_token.type == ':':
                     byte_string += str(self._match(':'))
                 size -= 1
-                if size == 0:
+                if size == 0:  # acc == 0
                     self._match(',')
                     return byte_string + ','
         else:
+            # should never occur. Every byte has to be accepted.
             print("ERROR! invalid byte: " + str(self.cur_token.val))
 
     def _digits(self, container_flag=False):
@@ -230,7 +231,7 @@ if __name__ == '__main__':
 
     # correct netstring with appendix beyond outer size, (parses correctly without the additional '432' chars)
     print(p.parse("0116:053:021:9:abcdefghi,6:abcdef,,23:abcdefghijklmnopqrstuvw,,"
-                 "053:24:abcdefghijklmnopqrstuvwx,21:abcdefghijklmnoprstuv,,,432"))
+                  "053:24:abcdefghijklmnopqrstuvwx,21:abcdefghijklmnoprstuv,,,432"))
 
     # incorrect netstring, 022 is 1 too large (parses correctly and throws error at position 34)
     # print(p.parse("0116:053:022:9:abcdefghi,6:abcdef,,23:abcdefghijklmnopqrstuvw,,"

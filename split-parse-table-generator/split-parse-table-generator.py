@@ -13,8 +13,10 @@ class ParseTableGen(object):
     terminals = []
     non_terminals = []
 
-    # specific to Calc-context-free languages that have a collision between bytes and string-ending symbols (like comma)
     byte_symbol = ""
+
+    # specific to Calc-LL(1) languages that have a collision between bytes and string-ending symbols
+    # e.g. the comma for netstrings
     end_of_string_symbol = ""
 
     # first and follow set dicts
@@ -23,8 +25,9 @@ class ParseTableGen(object):
     parse_table = []
 
     # initializes a ParseTableGen object given a grammar and calculates first/follow sets and the parse table
-    # The 'byte_symbol' can be added as a parameter if one wants to process calc-context-free grammars and therefore
-    # needs to specify a non-terminal that represents bytes and can cause collisions with the end of string symbol
+    # The 'byte_symbol' aswell as the "end_of_string_symbol" can be added as a parameter if one wants to process
+    # calc-LL(1) grammars and therefore needs to specify a non-terminal that represents bytes and can cause
+    # collisions with the end of string symbol
     def __init__(self, productions, byte_symbol=None, end_of_string_symbol=None):
         self.format_productions(productions)
         self.format_init_sets()
@@ -220,7 +223,7 @@ class ParseTableGen(object):
         parse_table[non_t_pos][end_symbol_pos] = " "
         parse_table[non_t_pos+1][end_symbol_pos] = end_symbol_rule
 
-        print("\nCalc-context-free Parse Table: ")
+        print("\nCalc-LL(1) Parse Table: ")
         print(tabulate(parse_table, tablefmt="fancy_grid"))
 
     @staticmethod
@@ -253,4 +256,5 @@ if __name__ == '__main__':
     productions_5 = ["S = 0 D : R ,", "S = 1 D : T ,", "R = S R", "R = ", "T = b T", "T = ",
                      "D = 1 N", "D = ", "N = 0 N", "N = "]
     ParseTableGen(productions_5, "b", ",")
-    # TODO: splitting the parse table as to avoid collision with "bytes" in calc-context free languages / netstrings
+    # TODO: split parse table row wise or column wise?
+    # TODO: google protobuf formal grammar
