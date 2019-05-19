@@ -124,12 +124,11 @@ class CalcParser(object):
                     print("ERROR! Expected another netstring to begin due to leading zero in the upper container.")
                     return ''
                 if len(self.container_stack) == 0:
-                    print("ERROR! Expected a length-prefix definition.")
+                    print("ERROR! Expected a length-prefix definition at string-position: " str(self.cur_pos-1)))
                     return ''
                 self._match(',')
                 if not self.container_stack[-1] < self.cur_pos:
-                    print("ERROR! Netstring contents possibly shorter than length field of a "
-                          "container indicated. Error at string-position: " + str(self.cur_pos-1))
+                    print("Expected a length prefix definition at string-position: " + str(self.cur_pos-1))
                     return ''
                 else:
                     self.container_stack.pop()
