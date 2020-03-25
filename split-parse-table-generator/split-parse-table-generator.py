@@ -13,10 +13,7 @@ class ParseTableGen(object):
     terminals = []
     non_terminals = []
 
-<<<<<<< HEAD
-=======
     # specific to Calc-LL(1) languages that have a collision between bytes and e.g. string-ending symbols (like commas in netstrings)
->>>>>>> 5edb2e80691aa0f294c3ea39d255b25f15ab302f
     byte_symbol = ""
 
     # specific to Calc-LL(1) languages that have a collision between bytes and string-ending symbols
@@ -29,15 +26,9 @@ class ParseTableGen(object):
     parse_table = []
 
     # initializes a ParseTableGen object given a grammar and calculates first/follow sets and the parse table
-<<<<<<< HEAD
-    # The 'byte_symbol' aswell as the "end_of_string_symbol" can be added as a parameter if one wants to process
-    # calc-LL(1) grammars and therefore needs to specify a non-terminal that represents bytes and can cause
-    # collisions with the end of string symbol
-=======
     # The 'byte_symbol' can be added as a parameter if one wants to process calc-context-free grammars and therefore
     # needs to specify a non-terminal that represents bytes and can cause collisions with the end of string symbol or
     # the beginning of a new potential message
->>>>>>> 5edb2e80691aa0f294c3ea39d255b25f15ab302f
     def __init__(self, productions, byte_symbol=None, end_of_string_symbol=None):
         self.format_productions(productions)
         self.format_init_sets()
@@ -265,8 +256,3 @@ if __name__ == '__main__':
     productions_5 = ["S = 0 D : R ,", "S = 1 D : T ,", "R = S R", "R = ", "T = b T", "T = ",
                      "D = 1 N", "D = ", "N = 0 N", "N = "]
     ParseTableGen(productions_5, "b", ",")
-<<<<<<< HEAD
-    # TODO: split parse table row wise or column wise?
-    # TODO: google protobuf formal grammar
-=======
->>>>>>> 5edb2e80691aa0f294c3ea39d255b25f15ab302f
