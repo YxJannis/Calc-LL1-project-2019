@@ -1,4 +1,5 @@
 # Calc-LL1-project-2019
+Note: The general notion of Calc-LL(1)-Languages was later renamed to Calc-Context-Free Languages.
 These are the main implementations developed for the research on Calc-LL(1) languages and a Calc-LL(1) parser in the winter semester of 2018/2019 at Bauhaus Universität Weimar.
 
 Netstring parser
